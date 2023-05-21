@@ -27,7 +27,8 @@ func InitDB() error {
 	if err = DB.Ping(); err != nil {
 		return fmt.Errorf("%w", err)
 	}
-	fmt.Println("Datebase init successfully!")
+	fmt.Println("Mysql connected!")
+
 	// 创建 colly 数据库
 	if err = DB.CreateDB("colly"); err != nil {
 		return fmt.Errorf("create db, err: %w", err)

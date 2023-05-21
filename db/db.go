@@ -48,7 +48,7 @@ func (d *Database) CreateTableSongs() error {
 		link VARCHAR(255) DEFAULT NULL,
 		cover VARCHAR(255) DEFAULT NULL,
 		PRIMARY KEY ( id )
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8;`
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
 	// 执行SQL语句
 	_, err := d.Exec(sqlStr)
 	if err != nil {

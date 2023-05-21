@@ -2,11 +2,8 @@ package crawler
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/gocolly/colly"
-	"github.com/yushengguo557/music-ranking/dao"
-	"github.com/yushengguo557/music-ranking/model"
 )
 
 // Crawler 爬行器 爬取网页
@@ -36,10 +33,17 @@ func NewCrawler() *Crawler {
 
 // Run 运行 实例化的 爬取器 Crawler
 func (c *Crawler) Run() (err error) {
-	if err = c.CrawlerQQMusic(); err != nil {
-		return fmt.Errorf("%w", err)
-	}
-	if err = c.CrawlerNetEaseMusic(); err != nil {
+	// QQ Music
+	// if err = c.CrawlerQQMusic(); err != nil {
+	// 	return fmt.Errorf("%w", err)
+	// }
+	// if err = c.CrawlerNetEaseMusic(); err != nil {
+	// 	return fmt.Errorf("%w", err)
+	// }
+	// if err = c.CrawlerKuGouMusic(); err != nil {
+	// 	return fmt.Errorf("%w", err)
+	// }
+	if err = c.GetKugouRankUrls(); err != nil {
 		return fmt.Errorf("%w", err)
 	}
 	return nil
@@ -72,59 +76,3 @@ func Run() (err error) {
 // })
 
 // c.Visit("http://go-colly.org/")
-
-// CrawlerQQMusic 爬取 QQ 音乐
-func (c *Crawler) CrawlerQQMusic() error {
-	d := dao.NewDao()
-
-	c.OnHTML(".songlist__item", func(e *colly.HTMLElement) {
-		name := e.ChildText(".songlist__songname_txt")
-		singer := e.ChildText(".songlist__artist a")
-		duration := e.ChildText(".songlist__time")
-		link_addr := e.ChildAttr("div.songlist__songname > span > a:nth-child(2)", "href")
-		link := fmt.Sprintf("%s%s%s", "https://", e.Request.URL.Host, link_addr)
-		s := model.NewSong(name, singer, duration, link, "")
-		fmt.Println(s)
-		d.Lock.Lock()
-		if err := d.InsertSong(s); err != nil {
-			// panic(err)
-			log.Println(err)
-		}
-		d.Lock.Unlock()
-	})
-
-	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL)
-	})
-
-	c.Visit("https://y.qq.com/n/ryqq/toplist/4")
-	c.Visit("https://y.qq.com/n/ryqq/toplist/62")
-	c.Visit("https://y.qq.com/n/ryqq/toplist/26")
-	c.Visit("https://y.qq.com/n/ryqq/toplist/27")
-	c.Visit("https://y.qq.com/n/ryqq/toplist/52")
-	c.Visit("https://y.qq.com/n/ryqq/toplist/67")
-	return nil
-}
-
-func (c *Crawler) CrawlerNetEaseMusic() error {
-	// d := dao.NewDao()
-
-	// c.OnHTML(".songlist__item", func(e *colly.HTMLElement) {
-	// 	name := e.ChildText(".songlist__songname_txt")
-	// 	singer := e.ChildText(".songlist__artist a")
-	// 	duration := e.ChildText(".songlist__time")
-	// 	link_addr := e.ChildAttr("div.songlist__songname > span > a:nth-child(2)", "href")
-	// 	link := fmt.Sprintf("%s%s%s", "https://", e.Request.URL.Host, link_addr)
-	// 	s := model.NewSong(name, singer, duration, link, "")
-	// 	fmt.Println(s)
-	// 	if err := d.InsertSong(s); err != nil {
-	// 		// panic(err)
-	// 		log.Println(err)
-	// 	}
-	// })
-
-	// c.OnRequest(func(r *colly.Request) {
-	// 	fmt.Println("Visiting", r.URL)
-	// })
-	return nil
-}
