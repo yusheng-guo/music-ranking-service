@@ -47,7 +47,7 @@ func (d *Database) CreateTableSongs() error {
 		duration VARCHAR(255) DEFAULT NULL,
 		link VARCHAR(255) DEFAULT NULL,
 		cover VARCHAR(255) DEFAULT NULL,
-		tag VARCHAR(10) DEFAULT NULL,
+		tag VARCHAR(64) DEFAULT NULL,
 		platform INT UNSIGNED DEFAULT NULL,
 		PRIMARY KEY ( id )
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`

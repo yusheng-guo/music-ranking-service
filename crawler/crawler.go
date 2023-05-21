@@ -36,28 +36,28 @@ func (c *Crawler) Run() (err error) {
 	// get urls
 	var urls map[string]string
 	// 酷狗
-	if urls, err = c.CrawlKugouRankUrls(); err != nil {
-		return fmt.Errorf("get kugou urls -- %w", err)
-	}
-	if err = c.CrawlKuGouMusic(urls); err != nil {
-		return fmt.Errorf("crawl kugou -- %w", err)
-	}
+	// if urls, err = c.CrawlKugouRankUrls(); err != nil {
+	// 	return fmt.Errorf("get kugou urls -- %w", err)
+	// }
+	// if err = c.CrawlKuGouMusic(urls); err != nil {
+	// 	return fmt.Errorf("crawl kugou -- %w", err)
+	// }
 
 	// 咪咕
 	if urls, err = c.CrawlMiguRankUrls(); err != nil {
 		return fmt.Errorf("get migu urls -- %w", err)
 	}
 	if err = c.CrawlMiguMusic(urls); err != nil {
-		return fmt.Errorf("crawl kugou -- %w", err)
+		return fmt.Errorf("crawl migu -- %w", err)
 	}
 
 	// QQ
-	if urls, err = c.CrawlQQRankUrls(); err != nil {
-		return fmt.Errorf("get qq urls -- %w", err)
-	}
-	if err = c.CrawlQQMusic(urls); err != nil {
-		return fmt.Errorf("crawl qq -- %w", err)
-	}
+	// if urls, err = c.CrawlQQRankUrls(); err != nil {
+	// 	return fmt.Errorf("get qq urls -- %w", err)
+	// }
+	// if err = c.CrawlQQMusic(urls); err != nil {
+	// 	return fmt.Errorf("crawl qq -- %w", err)
+	// }
 
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)

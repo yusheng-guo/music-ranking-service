@@ -10,9 +10,9 @@ import (
 // Insert 插入数据
 func (d *Dao) InsertSong(s *model.Song) error {
 	// SQL语句
-	sqlStr := "insert into songs (name, singer, duration, link, cover) values (?, ?, ?, ?, ?)"
+	sqlStr := "insert into songs (name, singer, duration, link, cover, tag, platform) values (?, ?, ?, ?, ?, ?, ?)"
 	// 执行SQL语句
-	ret, err := d.DB.Exec(sqlStr, s.Name, s.Singer, s.Duration, s.Link, s.Cover)
+	ret, err := d.DB.Exec(sqlStr, s.Name, s.Singer, s.Duration, s.Link, s.Cover, s.Tag, s.Platform)
 	if err != nil {
 		return fmt.Errorf("insert failed, err: %w", err)
 	}
@@ -28,9 +28,9 @@ func (d *Dao) InsertSong(s *model.Song) error {
 // QueryOne 查询单条数据
 func (d *Dao) QueryOneSong(db *sql.DB) error {
 	//SQL语句
-	sqlStr := "select name, singer, duration, link, cover from songs where id=?"
+	sqlStr := "select name, singer, duration, link, cover, tag, platform from songs where id=?"
 	var s model.Song
-	err := d.DB.QueryRow(sqlStr, 1).Scan(&s.Name, &s.Singer, &s.Duration, &s.Link, &s.Cover)
+	err := d.DB.QueryRow(sqlStr, 1).Scan(&s.Name, &s.Singer, &s.Duration, &s.Link, &s.Cover, &s.Tag, &s.Platform)
 	if err != nil {
 		return fmt.Errorf("query failed, err:%w", err)
 	}
@@ -41,7 +41,7 @@ func (d *Dao) QueryOneSong(db *sql.DB) error {
 // 查询多条数据
 func (d *Dao) QueryMultiSongs() error {
 	// SQL语句
-	sqlStr := "select name, singer, duration, link, cover from songs where id > ?"
+	sqlStr := "select name, singer, duration, link, cover, tag, platform from songs where id=?"
 	rows, err := d.DB.Query(sqlStr, 0)
 	if err != nil {
 		return fmt.Errorf("query failed, err:%w", err)
@@ -54,7 +54,7 @@ func (d *Dao) QueryMultiSongs() error {
 	//循环遍历Rows对象，获取每一行的数据
 	for rows.Next() {
 		var s model.Song
-		err := rows.Scan(&s.Name, &s.Singer, &s.Duration, &s.Link, &s.Cover)
+		err := rows.Scan(&s.Name, &s.Singer, &s.Duration, &s.Link, &s.Cover, &s.Tag, &s.Platform)
 		if err != nil {
 			return fmt.Errorf("scan failed,err:%w", err)
 		}

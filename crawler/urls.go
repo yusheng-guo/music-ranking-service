@@ -32,7 +32,7 @@ func (c *Crawler) CrawlMiguRankUrls() (map[string]string, error) {
 	c.OnHTML("div.board-sord > div > ul > li > a", func(e *colly.HTMLElement) {
 		url := e.Attr("href")
 		title := e.Text
-		urls[title] = url
+		urls[title] = fmt.Sprintf("%s%s", "https://music.migu.cn", url)
 	})
 
 	if err = c.Visit("https://music.migu.cn/v3/music/top/"); err != nil {
