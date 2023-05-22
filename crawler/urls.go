@@ -54,3 +54,20 @@ func (c *Crawler) CrawlQQRankUrls() (map[string]string, error) {
 	urls["欧美榜"] = "https://y.qq.com/n/ryqq/toplist/3"
 	return urls, nil
 }
+
+// CrawlNeteaseRankUrls -- find all netease rank links
+func (c *Crawler) CrawlNeteaseRankUrls() (map[string]string, error) {
+	var err error
+	urls := make(map[string]string)
+	c.OnHTML("ul > li > div", func(e *colly.HTMLElement) {
+		url := e.ChildAttr("p.name > a", "href")
+		title := e.ChildText("p.s-fc4")
+		urls[title] = fmt.Sprintf("%s%s", "https://music.163.com/#", url)
+	})
+
+	if err = c.Visit("https://music.163.com/#/discover/toplist"); err != nil {
+		return urls, fmt.Errorf("visit %s, err: %w", "https://music.163.com/#/discover/toplist", err)
+	}
+
+	return urls, nil
+}

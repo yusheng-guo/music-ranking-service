@@ -9,24 +9,27 @@ import (
 )
 
 // CrawlNetEaseMusic 爬取 网易音乐
-func (c *Crawler) CrawlNetEaseMusic() error {
+func (c *Crawler) CrawlNetEaseMusic(urls map[string]string) (err error) {
 	d := dao.NewDao()
-	c.OnHTML(".tt", func(e *colly.HTMLElement) {
-		name := e.ChildText("span.txt a b")
-		singer := e.ChildText("td div.text span a")
-		duration := e.ChildText("span.u-dur")
-		link_addr := e.ChildAttr("div.ttc span.txt a", "href")
-		link := fmt.Sprintf("%s%s%s", "https://", e.Request.URL.Host, link_addr)
-		cover := ""
-		tag := ""
-		s := model.NewSong(name, singer, duration, link, cover, tag, model.NeteaseMusic)
-		d.Lock.Lock()
-		if err := d.InsertSong(s); err != nil {
-			panic(err)
-		}
-		d.Lock.Unlock()
-	})
+	for tag, url := range urls {
+		c.OnHTML(".tt", func(e *colly.HTMLElement) {
+			name := e.ChildText("span.txt a b")
+			singer := e.ChildText("td div.text span a")
+			duration := e.ChildText("span.u-dur")
+			link_addr := e.ChildAttr("div.ttc span.txt a", "href")
+			link := fmt.Sprintf("%s%s%s", "https://", e.Request.URL.Host, link_addr)
+			cover := ""
+			s := model.NewSong(name, singer, duration, link, cover, tag, model.NeteaseMusic)
+			d.Lock.Lock()
+			if err = d.InsertSong(s); err != nil {
+				panic(err)
+			}
+			d.Lock.Unlock()
+		})
 
-	c.Visit("https://music.163.com/#/discover/toplist")
+		if err = c.Visit(url); err != nil {
+			return fmt.Errorf("CrawlNetEaseMusic, err: %w", err)
+		}
+	}
 	return nil
 }

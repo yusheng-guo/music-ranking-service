@@ -33,14 +33,22 @@ func InitDB() error {
 	if err = DB.CreateDB("colly"); err != nil {
 		return fmt.Errorf("create db, err: %w", err)
 	}
+
 	// 使用 colly 数据库
 	_, err = DB.Exec("USE colly")
 	if err != nil {
 		panic(err.Error())
 	}
+
 	// 创建 songs 数据表
 	if err = DB.CreateTableSongs(); err != nil {
 		return fmt.Errorf("create table songs, err: %w", err)
+	}
+
+	// 清空 songs 数据表
+	_, err = DB.Exec("TRUNCATE TABLE songs")
+	if err != nil {
+		panic(err.Error())
 	}
 	return nil
 }
