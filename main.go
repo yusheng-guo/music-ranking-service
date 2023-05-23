@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
+	v1 "github.com/yushengguo557/music-ranking/api/v1"
 	"github.com/yushengguo557/music-ranking/crawler"
 	"github.com/yushengguo557/music-ranking/global"
 )
@@ -26,9 +28,22 @@ func init() {
 func main() {
 	// 关闭数据库连接
 	defer global.DB.Close()
+	go func() {
+		// 爬虫
+		if err := crawler.Run(); err != nil {
+			panic(err)
+		}
+	}()
 
-	// 爬虫
-	if err := crawler.Run(); err != nil {
-		panic(err)
+	r := gin.Default()
+	r.GET("/ping", func(c *gin.Context) { // 微信公众号
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+	wx := r.Group("wx") // 微信公众号
+	{
+		wx.GET("/songs", v1.GetSongs)
 	}
+	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
 }

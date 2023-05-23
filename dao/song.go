@@ -39,12 +39,14 @@ func (d *Dao) QueryOneSong(db *sql.DB) error {
 }
 
 // 查询多条数据
-func (d *Dao) QueryMultiSongs() error {
+func (d *Dao) QueryMultiSongs() ([]model.Song, error) {
 	// SQL语句
-	sqlStr := "select name, singer, duration, link, cover, tag, platform from songs where id=?"
-	rows, err := d.DB.Query(sqlStr, 0)
+	// sqlStr := "select name, singer, duration, link, cover, tag, platform from songs where id=?"
+	// SELECT * FROM songs LIMIT 100
+	sqlStr := "SELECT name, singer, duration, link, cover, tag, platform FROM songs LIMIT 100"
+	rows, err := d.DB.Query(sqlStr)
 	if err != nil {
-		return fmt.Errorf("query failed, err:%w", err)
+		return nil, fmt.Errorf("query songs, err:%w", err)
 	}
 
 	//关闭Rows对象，释放连接资源
@@ -56,10 +58,10 @@ func (d *Dao) QueryMultiSongs() error {
 		var s model.Song
 		err := rows.Scan(&s.Name, &s.Singer, &s.Duration, &s.Link, &s.Cover, &s.Tag, &s.Platform)
 		if err != nil {
-			return fmt.Errorf("scan failed,err:%w", err)
+			return nil, fmt.Errorf("scan song, err: %w", err)
 		}
 		songs = append(songs, s)
 	}
 	fmt.Println("query success:", songs)
-	return nil
+	return songs, nil
 }

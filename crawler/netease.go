@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gocolly/colly"
+	_ "github.com/gocolly/colly/extensions"
 	"github.com/yushengguo557/music-ranking/dao"
 	"github.com/yushengguo557/music-ranking/model"
 )
