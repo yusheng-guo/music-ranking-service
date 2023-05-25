@@ -41,6 +41,32 @@ func main() {
 			"message": "pong",
 		})
 	})
+	// QQ Music
+	qq := r.Group("/qq")
+	{
+		qq.GET("/hotsong") // 热歌榜
+		qq.GET("/newsong") // 新歌榜
+		qq.GET("/soaring") // 飙升榜
+		qq.GET("/popular") // 流行指数榜
+	}
+
+	// migu Music
+	migu := r.Group("/migu")
+	{
+		migu.GET("/newsong")  // 新歌榜
+		migu.GET("/hotsong")  // 热歌榜
+		migu.GET("/original") // 原创榜
+	}
+
+	// kugou Music
+	kugou := r.Group("/kugou")
+	{
+		kugou.GET("/soaring")  // 飙升榜
+		kugou.GET("/top500")   // 酷狗TOP500
+		kugou.GET("/popular")  // "蜂鸟流行音乐榜
+		kugou.GET("/douyin")   // 抖音热歌榜
+		kugou.GET("/kuaishou") // 快手热歌榜
+	}
 	wx := r.Group("wx") // 微信公众号
 	{
 		wx.GET("/songs", v1.GetSongs)
