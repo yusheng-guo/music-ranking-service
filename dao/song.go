@@ -4,11 +4,18 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/yushengguo557/music-ranking/global"
 	"github.com/yushengguo557/music-ranking/model"
 )
 
 // Insert 插入数据
 func (d *Dao) InsertSong(s *model.Song) (err error) {
+	// 使用 colly 数据库
+	_, err = global.DB.Exec("USE colly")
+	if err != nil {
+		// panic(err.Error())
+		panic(fmt.Errorf("new dao, err: %w", err))
+	}
 	// SQL语句
 	sqlStr := "insert into songs (name, singer, duration, link, cover, tag, platform) values (?, ?, ?, ?, ?, ?, ?)"
 	// 执行SQL语句

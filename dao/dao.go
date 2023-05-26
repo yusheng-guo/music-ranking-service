@@ -19,10 +19,6 @@ func NewDao() *Dao {
 		global.DB,
 		sync.RWMutex{},
 	}
-	// 使用 colly 数据库
-	_, err := global.DB.Exec("USE colly")
-	if err != nil {
-		panic(err.Error())
-	}
+
 	return d
 }
