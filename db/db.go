@@ -16,11 +16,28 @@ type Database struct {
 	*sql.DB
 }
 
-// NewDatabase 实例化Datebase
-func NewDatabase(db *sql.DB) *Database {
+// NewAndInitDatabase 实例化 和 初始化 Datebase
+// 连接 配置 测试
+func NewAndInitDatabase() (*Database, error) {
+	db, err := sql.Open("mysql", "root:123456@tcp(119.91.204.226:3306)/")
+	if err != nil {
+		return nil, fmt.Errorf("%w", err)
+	}
+	// Set the maximum number of open connections
+	db.SetMaxOpenConns(10)
+
+	// Set the maximum number of idle connections
+	db.SetMaxIdleConns(5)
+
+	// test connection
+	if err = db.Ping(); err != nil {
+		return nil, fmt.Errorf("%w", err)
+	}
+	fmt.Println("mysql connected!")
+
 	return &Database{
 		db,
-	}
+	}, nil
 }
 
 // CreateDB 创建 名为 name 的数据库

@@ -1,7 +1,6 @@
 package global
 
 import (
-	"database/sql"
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -15,20 +14,11 @@ var DB *db.Database
 // - 实例化Database
 // - 数据库连接
 // - 创建数据表
-func InitDB() error {
+func InitDB() (err error) {
 	// 实例化 Database
-	mysqldb, err := sql.Open("mysql", "root:123456@tcp(119.91.204.226:3306)/")
-	if err != nil {
-		return fmt.Errorf("%w", err)
+	if DB, err = db.NewAndInitDatabase(); err != nil {
+		panic(err)
 	}
-	DB = db.NewDatabase(mysqldb)
-
-	// 测试连接是否成功
-	if err = DB.Ping(); err != nil {
-		return fmt.Errorf("%w", err)
-	}
-	fmt.Println("Mysql connected!")
-
 	// 创建 colly 数据库
 	if err = DB.CreateDB("colly"); err != nil {
 		return fmt.Errorf("create db, err: %w", err)

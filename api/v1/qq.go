@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -38,6 +39,7 @@ func GetQQSoaring(c *gin.Context) {
 	songs, err := s.QueryMultiSongs("飙升榜", model.QQMusic)
 	s.Lock.RUnlock()
 	if err != nil {
+		log.Fatal(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
 		return
 	}

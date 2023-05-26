@@ -34,7 +34,7 @@ func NewRouter() *gin.Engine {
 	{
 		kugou.GET("/soaring", v1.GetKugouSoaring)   // 飙升榜
 		kugou.GET("/top500", v1.GetKugouTop500)     // 酷狗TOP500
-		kugou.GET("/popular", v1.GetKugouPopular)   // "蜂鸟流行音乐榜
+		kugou.GET("/popular", v1.GetKugouPopular)   // 蜂鸟流行音乐榜
 		kugou.GET("/douyin", v1.GetKugouDouyin)     // 抖音热歌榜
 		kugou.GET("/kuaishou", v1.GetKugouKuaishou) // 快手热歌榜
 	}

@@ -63,7 +63,8 @@ func GetKugouKuaishou(c *gin.Context) {
 	s.Lock.RUnlock()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
-		return
+		panic(err)
+		// return
 	}
 	c.JSON(http.StatusOK, gin.H{"songs": songs})
 }

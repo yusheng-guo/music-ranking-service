@@ -15,10 +15,8 @@ type Dao struct {
 
 // NewDao 新建 Dao 实例化
 func NewDao() *Dao {
-	d := &Dao{
+	return &Dao{
 		global.DB,
 		sync.RWMutex{},
 	}
-
-	return d
 }

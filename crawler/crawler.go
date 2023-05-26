@@ -24,11 +24,11 @@ func NewCrawler() *Crawler {
 			colly.UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"),
 			colly.MaxDepth(1),
 			// colly.AllowedDomains("y.qq.com"),
-			colly.Async(true),
+			// colly.Async(true),
 		),
 	}
-	// 限制 goroutine 数量 为 7
-	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 17})
+	// 限制 goroutine 数量 为 17
+	// c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 17})
 	return c
 }
 
