@@ -13,10 +13,16 @@ type Dao struct {
 	Lock sync.RWMutex
 }
 
-// NewDao 新建 Dao  实例化
+// NewDao 新建 Dao 实例化
 func NewDao() *Dao {
-	return &Dao{
+	d := &Dao{
 		global.DB,
 		sync.RWMutex{},
 	}
+	// 使用 colly 数据库
+	_, err := global.DB.Exec("USE colly")
+	if err != nil {
+		panic(err.Error())
+	}
+	return d
 }

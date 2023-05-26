@@ -2,6 +2,7 @@ package crawler
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/gocolly/colly"
 )
@@ -27,7 +28,7 @@ func NewCrawler() *Crawler {
 		),
 	}
 	// 限制 goroutine 数量 为 7
-	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 7})
+	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 17})
 	return c
 }
 
@@ -39,6 +40,7 @@ func (c *Crawler) Run() (err error) {
 	// if urls, err = c.CrawlKugouRankUrls(); err != nil {
 	// 	return fmt.Errorf("get kugou urls -- %w", err)
 	// }
+
 	urls = map[string]string{
 		"酷狗飙升榜":    "https://www.kugou.com/yy/rank/home/1-6666.html",
 		"酷狗TOP500": "https://www.kugou.com/yy/rank/home/1-8888.html",
@@ -55,29 +57,28 @@ func (c *Crawler) Run() (err error) {
 	// 	return fmt.Errorf("get migu urls -- %w", err)
 	// }
 
-	// urls = map[string]string{
-	// 	"尖叫新歌榜": "https://music.migu.cn/v3/music/top/jianjiao_newsong",
-	// 	"尖叫热歌榜": "https://music.migu.cn/v3/music/top/jianjiao_hotsong",
-	// 	"尖叫原创榜": "https://music.migu.cn/v3/music/top/jianjiao_original",
-	// }
-	// if err = c.CrawlMiguMusic(urls); err != nil {
-	// 	return fmt.Errorf("crawl migu -- %w", err)
-	// }
+	urls = map[string]string{
+		"尖叫新歌榜": "https://music.migu.cn/v3/music/top/jianjiao_newsong",
+		"尖叫热歌榜": "https://music.migu.cn/v3/music/top/jianjiao_hotsong",
+		"尖叫原创榜": "https://music.migu.cn/v3/music/top/jianjiao_original",
+	}
+	if err = c.CrawlMiguMusic(urls); err != nil {
+		return fmt.Errorf("crawl migu -- %w", err)
+	}
 
 	// QQ
 	// if urls, err = c.CrawlQQRankUrls(); err != nil {
 	// 	return fmt.Errorf("get qq urls -- %w", err)
 	// }
-	// urls = map[string]string{
-	// 	"飙升榜":   "https://y.qq.com/n/ryqq/toplist/62",
-	// 	"热歌榜":   "https://y.qq.com/n/ryqq/toplist/26",
-	// 	"新歌榜":   "https://y.qq.com/n/ryqq/toplist/27",
-	// 	"流行指数榜": "https://y.qq.com/n/ryqq/toplist/4",
-
-	// }
-	// if err = c.CrawlQQMusic(urls); err != nil {
-	// 	return fmt.Errorf("crawl qq -- %w", err)
-	// }
+	urls = map[string]string{
+		"飙升榜":   "https://y.qq.com/n/ryqq/toplist/62",
+		"热歌榜":   "https://y.qq.com/n/ryqq/toplist/26",
+		"新歌榜":   "https://y.qq.com/n/ryqq/toplist/27",
+		"流行指数榜": "https://y.qq.com/n/ryqq/toplist/4",
+	}
+	if err = c.CrawlQQMusic(urls); err != nil {
+		return fmt.Errorf("crawl qq -- %w", err)
+	}
 
 	// 网易云
 	// if urls, err = c.CrawlNeteaseRankUrls(); err != nil {
@@ -111,6 +112,7 @@ func Run() (err error) {
 
 	// Wait until threads are finished
 	c.Wait()
+	log.Println("finished clawling")
 	return nil
 }
 

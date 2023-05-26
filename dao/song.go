@@ -8,20 +8,20 @@ import (
 )
 
 // Insert 插入数据
-func (d *Dao) InsertSong(s *model.Song) error {
+func (d *Dao) InsertSong(s *model.Song) (err error) {
 	// SQL语句
 	sqlStr := "insert into songs (name, singer, duration, link, cover, tag, platform) values (?, ?, ?, ?, ?, ?, ?)"
 	// 执行SQL语句
-	ret, err := d.DB.Exec(sqlStr, s.Name, s.Singer, s.Duration, s.Link, s.Cover, s.Tag, s.Platform)
+	_, err = d.DB.Exec(sqlStr, s.Name, s.Singer, s.Duration, s.Link, s.Cover, s.Tag, s.Platform)
 	if err != nil {
 		return fmt.Errorf("insert failed, err: %w", err)
 	}
 	// 获取插入数据的id
-	id, err := ret.LastInsertId()
-	if err != nil {
-		return fmt.Errorf("get id failed, err:%w", err)
-	}
-	fmt.Println("insert success, id:", id)
+	// id, err := ret.LastInsertId()
+	// if err != nil {
+	// 	return fmt.Errorf("get id failed, err:%w", err)
+	// }
+	// fmt.Println("insert success, id:", id)
 	return nil
 }
 
@@ -39,12 +39,37 @@ func (d *Dao) QueryOneSong(db *sql.DB) error {
 }
 
 // 查询多条数据
-func (d *Dao) QueryMultiSongs() ([]model.Song, error) {
+func (d *Dao) QueryAllSongs() ([]model.Song, error) {
 	// SQL语句
 	// sqlStr := "select name, singer, duration, link, cover, tag, platform from songs where id=?"
 	// SELECT * FROM songs LIMIT 100
 	sqlStr := "SELECT name, singer, duration, link, cover, tag, platform FROM songs LIMIT 100"
 	rows, err := d.DB.Query(sqlStr)
+	if err != nil {
+		return nil, fmt.Errorf("query songs, err:%w", err)
+	}
+
+	//关闭Rows对象，释放连接资源
+	defer rows.Close()
+
+	var songs []model.Song
+	//循环遍历Rows对象，获取每一行的数据
+	for rows.Next() {
+		var s model.Song
+		err := rows.Scan(&s.Name, &s.Singer, &s.Duration, &s.Link, &s.Cover, &s.Tag, &s.Platform)
+		if err != nil {
+			return nil, fmt.Errorf("scan song, err: %w", err)
+		}
+		songs = append(songs, s)
+	}
+	fmt.Println("query success:", songs)
+	return songs, nil
+}
+
+func (d *Dao) QueryMultiSongs(tag string, platform model.Platform) ([]model.Song, error) {
+	// SQL语句
+	sqlStr := "SELECT * FROM songs WHERE tag = ? AND platform = ? LIMIT 0,100"
+	rows, err := d.DB.Query(sqlStr, tag, platform)
 	if err != nil {
 		return nil, fmt.Errorf("query songs, err:%w", err)
 	}
