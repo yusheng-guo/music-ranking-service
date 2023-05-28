@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/gocolly/colly"
-	"github.com/yushengguo557/music-ranking/dao"
-	"github.com/yushengguo557/music-ranking/model"
+	"github.com/yushengguo557/music-ranking-service/dao"
+	"github.com/yushengguo557/music-ranking-service/model"
 )
 
 // CrawlKuGouMusic crawling kugo music

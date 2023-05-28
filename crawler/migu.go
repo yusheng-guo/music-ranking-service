@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/gocolly/colly"
-	"github.com/yushengguo557/music-ranking/dao"
-	"github.com/yushengguo557/music-ranking/model"
+	"github.com/yushengguo557/music-ranking-service/dao"
+	"github.com/yushengguo557/music-ranking-service/model"
 )
 
 // CrawlMiguMusic 爬取 咪咕音乐

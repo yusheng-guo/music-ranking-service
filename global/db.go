@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/yushengguo557/music-ranking/db"
+	"github.com/yushengguo557/music-ranking-service/db"
 )
 
 // var DB *sql.DB

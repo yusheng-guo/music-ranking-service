@@ -5,8 +5,8 @@ import (
 
 	"github.com/gocolly/colly"
 	_ "github.com/gocolly/colly/extensions"
-	"github.com/yushengguo557/music-ranking/dao"
-	"github.com/yushengguo557/music-ranking/model"
+	"github.com/yushengguo557/music-ranking-service/dao"
+	"github.com/yushengguo557/music-ranking-service/model"
 )
 
 // CrawlNetEaseMusic 爬取 网易音乐

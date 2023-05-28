@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/yushengguo557/music-ranking/crawler"
-	"github.com/yushengguo557/music-ranking/global"
-	"github.com/yushengguo557/music-ranking/router"
+	"github.com/yushengguo557/music-ranking-service/crawler"
+	"github.com/yushengguo557/music-ranking-service/global"
+	"github.com/yushengguo557/music-ranking-service/router"
 )
 
 func init() {

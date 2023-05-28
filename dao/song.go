@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/yushengguo557/music-ranking/global"
-	"github.com/yushengguo557/music-ranking/model"
+	"github.com/yushengguo557/music-ranking-service/global"
+	"github.com/yushengguo557/music-ranking-service/model"
 )
 
 // Insert 插入数据

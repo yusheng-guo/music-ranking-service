@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	v1 "github.com/yushengguo557/music-ranking/api/v1"
+	v1 "github.com/yushengguo557/music-ranking-service/api/v1"
 )
 
 func NewRouter() *gin.Engine {

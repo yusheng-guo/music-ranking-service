@@ -3,8 +3,8 @@ package dao
 import (
 	"sync"
 
-	"github.com/yushengguo557/music-ranking/db"
-	"github.com/yushengguo557/music-ranking/global"
+	"github.com/yushengguo557/music-ranking-service/db"
+	"github.com/yushengguo557/music-ranking-service/global"
 )
 
 // Dao 数据结构 数据访问层

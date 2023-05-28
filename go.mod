@@ -1,4 +1,4 @@
-module github.com/yushengguo557/music-ranking
+module github.com/yushengguo557/music-ranking-service
 
 go 1.20
 
