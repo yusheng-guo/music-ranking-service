@@ -4,14 +4,13 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/yushengguo557/music-ranking-service/global"
 	"github.com/yushengguo557/music-ranking-service/model"
 )
 
 // Insert 插入数据
 func (d *Dao) InsertSong(s *model.Song) (err error) {
 	// 使用 colly 数据库
-	_, err = global.DB.Exec("USE colly")
+	_, err = d.Exec("USE colly")
 	if err != nil {
 		// panic(err.Error())
 		panic(fmt.Errorf("new dao, err: %w", err))
@@ -35,7 +34,7 @@ func (d *Dao) InsertSong(s *model.Song) (err error) {
 // QueryOne 查询单条数据
 func (d *Dao) QueryOneSong(db *sql.DB) (err error) {
 	// 使用 colly 数据库
-	_, err = global.DB.Exec("USE colly")
+	_, err = d.Exec("USE colly")
 	if err != nil {
 		// panic(err.Error())
 		panic(fmt.Errorf("new dao, err: %w", err))
@@ -54,7 +53,7 @@ func (d *Dao) QueryOneSong(db *sql.DB) (err error) {
 // 查询多条数据
 func (d *Dao) QueryAllSongs() ([]model.Song, error) {
 	// 使用 colly 数据库
-	_, err := global.DB.Exec("USE colly")
+	_, err := d.Exec("USE colly")
 	if err != nil {
 		// panic(err.Error())
 		panic(fmt.Errorf("new dao, err: %w", err))
@@ -87,7 +86,7 @@ func (d *Dao) QueryAllSongs() ([]model.Song, error) {
 
 func (d *Dao) QueryMultiSongs(tag string, platform model.Platform) ([]*model.Song, error) {
 	// 使用 colly 数据库
-	_, err := global.DB.Exec("USE colly")
+	_, err := d.Exec("USE colly")
 	if err != nil {
 		// panic(err.Error())
 		return nil, fmt.Errorf("select colly database, err: %w", err)

@@ -34,11 +34,5 @@ func InitDB() (err error) {
 	if err = DB.CreateTableSongs(); err != nil {
 		return fmt.Errorf("create table songs, err: %w", err)
 	}
-
-	// 清空 songs 数据表
-	_, err = DB.Exec("TRUNCATE TABLE songs")
-	if err != nil {
-		panic(err.Error())
-	}
 	return nil
 }
