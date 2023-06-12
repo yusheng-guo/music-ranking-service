@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/yushengguo557/music-ranking-service/dao"
 	"github.com/yushengguo557/music-ranking-service/model"
+	"github.com/yushengguo557/music-ranking-service/model/response"
 )
 
 func GetQQHotSong(c *gin.Context) {
@@ -18,7 +19,13 @@ func GetQQHotSong(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"songs": songs})
+	// c.JSON(http.StatusOK, gin.H{"songs": songs})
+	// response.OKWithData(c, songs)
+	if len(songs) > 0 {
+		response.OKWithDataAndMessage(c, songs, "success")
+		return
+	}
+	response.OKWithMessage(c, "len(songs)=0")
 }
 
 func GetQQNewSong(c *gin.Context) {
