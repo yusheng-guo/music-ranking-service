@@ -1,11 +1,10 @@
 package v1
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/yushengguo557/music-ranking-service/dao"
 	"github.com/yushengguo557/music-ranking-service/model"
+	"github.com/yushengguo557/music-ranking-service/model/response"
 )
 
 func GetKugouSoaring(c *gin.Context) {
@@ -14,10 +13,14 @@ func GetKugouSoaring(c *gin.Context) {
 	songs, err := s.QueryMultiSongs("酷狗飙升榜", model.KugouMusic)
 	s.Lock.RUnlock()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+		response.FailWithMessage(c, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"songs": songs})
+	if len(songs) > 0 {
+		response.OKWithDataAndMessage(c, songs, "success")
+		return
+	}
+	response.OKWithMessage(c, "len(songs)=0")
 }
 
 func GetKugouTop500(c *gin.Context) {
@@ -26,10 +29,14 @@ func GetKugouTop500(c *gin.Context) {
 	songs, err := s.QueryMultiSongs("酷狗TOP500", model.KugouMusic)
 	s.Lock.RUnlock()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+		response.FailWithMessage(c, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"songs": songs})
+	if len(songs) > 0 {
+		response.OKWithDataAndMessage(c, songs, "success")
+		return
+	}
+	response.OKWithMessage(c, "len(songs)=0")
 }
 
 func GetKugouPopular(c *gin.Context) {
@@ -38,10 +45,14 @@ func GetKugouPopular(c *gin.Context) {
 	songs, err := s.QueryMultiSongs("蜂鸟流行音乐榜", model.KugouMusic)
 	s.Lock.RUnlock()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+		response.FailWithMessage(c, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"songs": songs})
+	if len(songs) > 0 {
+		response.OKWithDataAndMessage(c, songs, "success")
+		return
+	}
+	response.OKWithMessage(c, "len(songs)=0")
 }
 
 func GetKugouDouyin(c *gin.Context) {
@@ -50,10 +61,14 @@ func GetKugouDouyin(c *gin.Context) {
 	songs, err := s.QueryMultiSongs("抖音热歌榜", model.KugouMusic)
 	s.Lock.RUnlock()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+		response.FailWithMessage(c, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"songs": songs})
+	if len(songs) > 0 {
+		response.OKWithDataAndMessage(c, songs, "success")
+		return
+	}
+	response.OKWithMessage(c, "len(songs)=0")
 }
 
 func GetKugouKuaishou(c *gin.Context) {
@@ -62,9 +77,12 @@ func GetKugouKuaishou(c *gin.Context) {
 	songs, err := s.QueryMultiSongs("快手热歌榜", model.KugouMusic)
 	s.Lock.RUnlock()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
-		panic(err)
-		// return
+		response.FailWithMessage(c, err.Error())
+		return
 	}
-	c.JSON(http.StatusOK, gin.H{"songs": songs})
+	if len(songs) > 0 {
+		response.OKWithDataAndMessage(c, songs, "success")
+		return
+	}
+	response.OKWithMessage(c, "len(songs)=0")
 }

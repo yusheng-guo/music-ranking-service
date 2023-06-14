@@ -1,11 +1,10 @@
 package v1
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/yushengguo557/music-ranking-service/dao"
 	"github.com/yushengguo557/music-ranking-service/model"
+	"github.com/yushengguo557/music-ranking-service/model/response"
 )
 
 func GetMiguNewSong(c *gin.Context) {
@@ -14,10 +13,14 @@ func GetMiguNewSong(c *gin.Context) {
 	songs, err := s.QueryMultiSongs("尖叫新歌榜", model.MiguMusic)
 	s.Lock.RUnlock()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+		response.FailWithMessage(c, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"songs": songs})
+	if len(songs) > 0 {
+		response.OKWithDataAndMessage(c, songs, "success")
+		return
+	}
+	response.OKWithMessage(c, "len(songs)=0")
 }
 
 func GetMiguHotSong(c *gin.Context) {
@@ -26,10 +29,14 @@ func GetMiguHotSong(c *gin.Context) {
 	songs, err := s.QueryMultiSongs("尖叫热歌榜", model.MiguMusic)
 	s.Lock.RUnlock()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+		response.FailWithMessage(c, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"songs": songs})
+	if len(songs) > 0 {
+		response.OKWithDataAndMessage(c, songs, "success")
+		return
+	}
+	response.OKWithMessage(c, "len(songs)=0")
 }
 
 func GetMiguOriginal(c *gin.Context) {
@@ -38,8 +45,12 @@ func GetMiguOriginal(c *gin.Context) {
 	songs, err := s.QueryMultiSongs("尖叫原创榜", model.MiguMusic)
 	s.Lock.RUnlock()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+		response.FailWithMessage(c, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"songs": songs})
+	if len(songs) > 0 {
+		response.OKWithDataAndMessage(c, songs, "success")
+		return
+	}
+	response.OKWithMessage(c, "len(songs)=0")
 }

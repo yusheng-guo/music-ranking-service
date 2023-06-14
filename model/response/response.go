@@ -8,13 +8,13 @@ import (
 
 const (
 	SUCCESS = 0
-	FAILURE = 7
+	ERROR   = 7
 )
 
 type Response struct {
-	Code    int    `json:"code"`    // 响应码
-	Data    any    `json:"data"`    // 响应数据
-	Message string `json:"message"` // 响应消息
+	Code int    `json:"code"`    // 响应码
+	Data any    `json:"data"`    // 响应数据
+	Msg  string `json:"message"` // 响应消息
 }
 
 func Result(c *gin.Context, r *Response) {
@@ -22,11 +22,11 @@ func Result(c *gin.Context, r *Response) {
 }
 
 func OKWithMessage(c *gin.Context, msg string) {
-	Result(c, &Response{Code: SUCCESS, Message: msg})
+	Result(c, &Response{Code: SUCCESS, Msg: msg})
 }
 
 func OKWithDataAndMessage(c *gin.Context, data any, msg string) {
-	Result(c, &Response{Code: SUCCESS, Data: data, Message: msg})
+	Result(c, &Response{Code: SUCCESS, Data: data, Msg: msg})
 }
 
 func OKWithData(c *gin.Context, data any) {
@@ -34,13 +34,13 @@ func OKWithData(c *gin.Context, data any) {
 }
 
 func FailWithMessage(c *gin.Context, msg string) {
-	Result(c, &Response{Code: FAILURE, Message: msg})
+	Result(c, &Response{Code: ERROR, Msg: msg})
 }
 
 func FailWithData(c *gin.Context, data any) {
-	Result(c, &Response{Code: FAILURE, Data: data})
+	Result(c, &Response{Code: ERROR, Data: data})
 }
 
 func FailWithDataAndMessage(c *gin.Context, data any, msg string) {
-	Result(c, &Response{Code: FAILURE, Data: data, Message: msg})
+	Result(c, &Response{Code: ERROR, Data: data, Msg: msg})
 }
